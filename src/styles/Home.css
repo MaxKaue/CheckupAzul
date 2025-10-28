@@ -1,0 +1,141 @@
+html, body {
+  margin: 0;
+  max-width: 100%;
+  scroll-behavior: smooth;
+  overflow: scroll; /* Mantém a rolagem */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+body::-webkit-scrollbar {
+  display: none; 
+}
+
+.home-container {
+  width: auto;
+}
+
+.home-hero {
+  position: relative;
+  background-image: url("../assets/home.png");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  max-width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  text-align: left;
+  padding-left: 5rem;
+  color: var(--cor-secundaria);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.home-content {
+  position: relative;
+  z-index: 2;
+  font-family: "Arial", sans-serif;
+}
+
+.home-content h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.home-content p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.quiz-button-home {
+  background-color: #008cff;
+  border: none;
+  padding: 1rem;
+  margin-top: 2rem;
+  border-radius: 25px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.quiz-button:hover {
+  background-color: #006fd1;
+}
+
+.login-text {
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.grafico-section {
+  width: auto;
+  background: #0a0a0a;
+  padding: 80px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 500px;
+  scroll-margin-top: 60px; /* caso use links para rolar até aqui */
+}
+
+
+@media (max-width: 768px) {
+    
+    /* === Hero Section (Home) === */
+    .home-hero {
+        /* Remove o padding fixo da esquerda e centraliza a área de conteúdo */
+        padding: 0 1rem; 
+        justify-content: center; /* Centraliza horizontalmente */
+        text-align: center; /* Centraliza o texto */
+        align-items: center; /* Centraliza verticalmente */
+    }
+
+    /* O overlay precisa ter a altura do hero, não 100vh, para evitar bugs */
+    .overlay {
+        height: 100%;
+    }
+
+    /* === Conteúdo (Textos) === */
+    .home-content {
+        max-width: 100%; /* Limita a largura do conteúdo para respirar */
+    }
+
+    .home-content h1 {
+        /* Reduz o tamanho do título principal drasticamente */
+        font-size: 2.5rem; 
+        margin-bottom: 2rem;
+    }
+
+    .home-content p {
+        /* Reduz o tamanho do parágrafo */
+        font-size: 1rem;
+        line-height: 1;
+        margin-bottom: 1rem;
+    }
+
+    /* === Botão Quiz (Maior Modificação) === */
+    .quiz-button {
+        /* Remove margens fixas que causam overflow */
+        margin-left: 0; 
+        margin-top: 1rem;
+    }
+
+    /* === Seção do Gráfico === */
+    .grafico-section {
+        /* Ajusta o padding para ser mais amigável ao mobile */
+        padding: 40px 10px;
+    }
+}

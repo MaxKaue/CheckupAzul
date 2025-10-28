@@ -1,0 +1,131 @@
+/* src/styles/Quiz.css */
+
+/* Containers Principais */
+.quiz-container {
+    justify-items: center;
+    max-width: 800px;
+    margin: auto;
+    margin-top: 10%;
+    padding: 30px;
+    border: 1px solid var(--cor-principal);
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--cor-secundaria); /* Texto branco */
+}
+
+.quiz-header-title {
+    color: var(--cor-principal); /* Título azul */
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.quiz-instruction {
+    text-align: center;
+    color: var(--cor-secundaria);
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+/* Blocos de Pergunta */
+.quiz-question-block {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #000000; /* Fundo levemente mais escuro para o bloco */
+    border-radius: 6px;
+    border-left: 5px solid var(--cor-principal);
+}
+
+.question-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--cor-secundaria);
+}
+
+/* Opções de Resposta */
+.options-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-label {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #2c2c2c;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    border: 1px solid transparent;
+}
+
+.option-label:hover {
+    background-color: #3a3a3a;
+    border-color: var(--cor-quartenaria);
+}
+
+/* Estilo para a opção selecionada */
+.option-label input[type="radio"]:checked + .option-text {
+    color: var(--cor-principal);
+    font-weight: bold;
+}
+
+.option-label input[type="radio"] {
+    /* Esconde o radio button nativo e usa o CSS para estilizar */
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+}
+
+.option-text {
+    margin-left: -5px; /* Compensa o radio button escondido */
+    font-size: 1rem;
+    color: #fff;
+    transition: color 0.2s;
+}
+
+/* Botões */
+
+
+/* Classe base para ambos os botões (garante que são inline-block e têm tamanho) */
+.quiz-button {
+    /* 2. ESSENCIAL: Permite que o elemento seja centralizado via text-align: center do pai */    
+    padding: 1rem;
+    display: block;
+    border-radius: 5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%; 
+    
+    /* 3. Garantir largura máxima para centralizar */
+    max-width: 400px; 
+}
+
+/* ------------------------------------------------------------------ */
+/* Botão de Submit (Ver Meu Resultado) */
+/* ------------------------------------------------------------------ */
+.submit-button {
+    background-color: var(--cor-principal);
+    color: var(--cor-secundaria);
+    width: auto; 
+    margin: auto;
+}
+
+/* ------------------------------------------------------------------ */
+/* Resultados - Garantir a centralização do botão de Reset */
+/* ------------------------------------------------------------------ */
+.quiz-resultado-container {
+    max-width: auto;
+    margin: 5rem;
+    padding: 5rem;
+    border: 2px solid var(--cor-principal);
+    border-radius: 10px;
+    background-color: #000000;
+    color: var(--cor-secundaria);
+}
+

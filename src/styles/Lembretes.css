@@ -1,0 +1,225 @@
+/* src/styles/Lembretes.css */
+
+.lembretes-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: var(--cor-fundo-destaque, #111);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    color: var(--cor-secundaria, #fff);
+}
+
+.lembretes-container h2 {
+    color: var(--cor-principal, #0096ff);
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.instruction {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 30px;
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
+/* --- Formulário --- */
+.lembretes-form {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background-color: #0a0a0a;
+}
+
+.lembretes-form input[type="text"],
+.lembretes-form input[type="date"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #222;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.lembretes-form input[type="date"] {
+    max-width: 180px; /* Data ocupa menos espaço */
+}
+
+.add-button {
+    background-color: var(--cor-principal, #0096ff);
+    color: var(--cor-secundaria, #fff);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.add-button:hover {
+    background-color: var(--cor-quartenaria, #0077cc);
+}
+
+/* --- Lista de Lembretes --- */
+.lembretes-list h3 {
+    border-bottom: 2px solid var(--cor-principal, #0096ff);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: var(--cor-secundaria);
+    font-size: 1.5rem;
+}
+
+.lembrete-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #1a1a1a;
+    border-left: 5px solid var(--cor-principal);
+    border-radius: 5px;
+}
+
+.lembrete-item h4 {
+    margin: 0;
+    color: var(--cor-secundaria);
+    font-size: 1.1rem;
+}
+
+.lembrete-date {
+    font-weight: bold;
+    color: var(--cor-principal, #0096ff);
+    margin-left: 5px;
+}
+
+.remove-button {
+    background-color: #ff0400; /* Vermelho para ação de remoção */
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.remove-button:hover {
+    background-color: #c62828;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 30px;
+    border: 1px dashed #444;
+    color: #888;
+}
+
+/* Mensagens de erro e carregamento */
+.error-message, .loading-message {
+    padding: 15px;
+    background-color: #4a1c1c;
+    color: #ff9999;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.lembrete-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.test-email-button {
+    background-color: var(--cor-terciaria, #ffaa00);
+    color: #0a0a0a;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.test-email-button:hover:not(:disabled) {
+    background-color: #cc8800;
+}
+
+.test-email-button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+}
+
+/* Ajuste do item para acomodar os novos botões */
+.lembrete-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* ... (restante dos estilos do lembrete-item) ... */
+}
+
+@media (max-width: 768px) {
+
+    .add-button {
+    background-color: var(--cor-principal, #0096ff);
+    color: var(--cor-secundaria, #fff);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+
+    .lembretes-form {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background-color: #0a0a0a;
+}
+
+.lembretes-form input[type="text"],
+.lembretes-form input[type="date"] {
+    flex: 1;
+    padding: 1px;
+    border: 1px solid #444;
+    border-radius: 1px;
+    background-color: #222;
+    color: #fff;
+    font-size: 0.5rem;
+}
+
+
+    .test-email-button {
+    background-color: var(--cor-terciaria);
+    color: #0a0a0a;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s;
+}
+
+.remove-button {
+    background-color: #ff0000; /* Vermelho para ação de remoção */
+    color: #fff;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.5rem;
+    transition: background-color 0.3s;
+}
+
+}

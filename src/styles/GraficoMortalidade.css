@@ -1,0 +1,85 @@
+/* Importar as variáveis globais (se o seu bundler permitir, ou defina-as no root) */
+/* Se este arquivo for importado por último, ele pode usar as variáveis do :root */
+/* Estilos base (MANTIDOS DO CÓDIGO ANTERIOR) */
+.grafico-container {
+    /* Estilos definidos no theme.css */
+    text-align: center;
+    padding-right: 2rem;
+}
+.grafico-container h2 {
+    color: var(--cor-principal);
+    margin-bottom: 5px;
+}
+.grafico-container p {
+    color: var(--cor-secundaria);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+/* 1. Estilos do botão */
+.toggle-button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: var(--cor-principal);
+    color: var(--cor-secundaria);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-button:hover {
+    background-color: var(--cor-quartenaria); /* Mantido fixo ou altere para uma variável */
+}
+
+/* 2. Estilos do bloco de conscientização */
+.conscientizacao {
+    margin-top: 30px;
+    padding: 20px;
+    line-height: 1.5;
+    margin-bottom: 4rem;
+    border-radius: 5px;
+    text-align: left;
+    border-left: 5px solid var(--cor-principal); /* Linha de destaque laranja */
+    color: var(--cor-secundaria);
+}
+
+.conscientizacao h3 {
+    color: var(--cor-principal);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
+
+.conscientizacao ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.conscientizacao ul li {
+    margin-bottom: 5px;
+    color: var(--cor-principal);
+    font-weight: 300;
+}
+
+/* Estilos de cor para strong tags dentro do texto de conscientização */
+.conscientizacao .destaque-texto {
+    color: var(--cor-principal); 
+}
+
+.destaque-texto {
+    color: var(--cor-principal);
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
