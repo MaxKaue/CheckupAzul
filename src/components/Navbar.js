@@ -1,124 +1,131 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../services/firebaseService'; 
-import { signOut } from 'firebase/auth';
-import '../styles/Navbar.css'; 
+import { UserContext } from '../context/UserContext';
+import '../styles/Navbar.css';
 
 export default function Navbar() {
-    const [currentUser, setCurrentUser] = useState(null);
-    // Estado para controlar a visibilidade do menu dropdown (Sanduíche)
-    const [isMenuOpen, setIsMenuOpen] = useState(false); 
-    
-    const navigate = useNavigate();
-    // Referência para fechar o menu ao clicar fora do dropdown
-    const menuRef = useRef(null); 
+  const { user, setUser } = useContext(UserContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [accessMenuOpen, setAccessMenuOpen] = useState(false);
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            setCurrentUser(user);
-        });
+  const navigate = useNavigate();
+  const menuRef = useRef(null);
 
-        // Lógica para fechar o menu ao clicar fora
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setIsMenuOpen(false);
-            }
-        };
+  useEffect(() => {
+    // Carrega o tema salvo
+const temaSalvo = localStorage.getItem("tema");
+if (temaSalvo) {
+  document.documentElement.setAttribute("data-theme", temaSalvo); 
+}
 
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            unsubscribe();
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-    const handleLogout = async () => {
-        try {
-            await signOut(auth);
-            setIsMenuOpen(false); // Fecha o menu
-            navigate('/');
-        } catch (error) {
-            console.error("Erro ao fazer logout:", error);
-        }
-    };
-    
-    // Função para alternar o estado do menu principal
-    const toggleMenu = () => {
-        setIsMenuOpen(prev => !prev);
-    };
-
-    // Função auxiliar para fechar o menu após um clique em um link
-    const handleLinkClick = () => {
+    const handleClickOutside = (event) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target)
+      ) {
         setIsMenuOpen(false);
+        setAccessMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        await fetch("http://localhost:3000/logout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ session_token: token }),
+        });
+      } catch (err) {
+        console.error("Erro ao fazer logout:", err);
+      }
     }
 
-    return (
-        <nav className="navbar">
-            
-            {/* LADO ESQUERDO: Logo */}
-            <div className="navbar-left">
-                {/* Garanta que a classe 'logo' está no CSS para formatar */}
-                <Link to="/" className="logo">
-                    Checkup Azul
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
+    setUser(null);
+    setIsMenuOpen(false);
+    navigate("/");
+
+    setTimeout(() => window.location.reload(), 5);
+  };
+
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
+  const toggleAccessMenu = () => setAccessMenuOpen(prev => !prev);
+
+  const aplicarTema = (tema) => {
+  if (tema === "padrao") {
+    document.documentElement.removeAttribute("data-theme");
+    localStorage.removeItem("tema");
+  } else {
+    document.documentElement.setAttribute("data-theme", tema);
+    localStorage.setItem("tema", tema);
+  }
+};
+
+
+  return (
+    <nav className="navbar">
+      <div className="navbar-left">
+        <Link to="/" className="logo">Checkup Azul</Link>
+      </div>
+
+      <div className="navbar-right" ref={menuRef}>
+
+        {/* === BOTÃO DE ACESSIBILIDADE === */}
+        <button
+          className="accessibility-button"
+          onClick={toggleAccessMenu}
+        >
+          ♿
+        </button>
+
+        {/* MENU DE ACESSIBILIDADE (PROVISÓRIO) */}
+        {accessMenuOpen && (
+          <div className="accessibility-menu">
+           <button onClick={() => aplicarTema("alto-contraste")}>Alto Contraste</button>
+           <button onClick={() => aplicarTema("tons-suaves")}>Tons Suaves</button>
+           <button onClick={() => aplicarTema("dark-mode")}>Modo Escuro</button>
+           <button onClick={() => aplicarTema("padrao")}>Padrão</button>
+        </div>
+        )}
+
+        {/* === MENU DO USUÁRIO === */}
+        {user ? (
+          <div className="dropdown-menu-container">
+            <button onClick={toggleMenu} className="menu-button">☰</button>
+
+            {isMenuOpen && (
+              <div className="dropdown-content">
+                <div className="dropdown-item user-info" style={{ fontWeight: 'bold' }}>
+                  Olá, {user.email.split('@')[0]}
+                </div>
+
+                <hr style={{ margin: 0, borderColor: '#333' }} />
+
+                <Link to="/" className="dropdown-item" onClick={() => setIsMenuOpen(false)}>
+                  🏠 Home
                 </Link>
-            </div>
-            
-            {/* LADO DIREITO: Itens de navegação */}
-            <div className="navbar-right" ref={menuRef}> 
-                
-                {currentUser ? (
-                    // --- MENU SANDUÍCHE/DROP-DOWN PARA USUÁRIO LOGADO ---
-                    <div className="dropdown-menu-container">
-                        {/* BOTÃO SANDUÍCHE/MENU PRINCIPAL */}
-                        <button onClick={toggleMenu} className="menu-button">
-                            ☰
-                        </button>
-                        
-                        {isMenuOpen && (
-                            <div className="dropdown-content">
-                                {/* ITEM 1: Nome do Usuário (apenas visual, não clicável) */}
-                                <div className="dropdown-item user-info" style={{ fontWeight: 'bold' }}>
-                                    Olá, {currentUser.email.split('@')[0]}
-                                </div>
-                                <hr style={{margin: '0', borderColor: '#333'}} /> 
 
-                                {/* ITEM 2: Rotas Principais */}
-                                <Link 
-                                    to="/" 
-                                    className="dropdown-item" 
-                                    onClick={handleLinkClick}
-                                >
-                                    🏠 Home / Quiz
-                                </Link>
-
-                                {/* ITEM 3: Lembretes */}
-                                <Link 
-                                    to="/lembretes" 
-                                    className="dropdown-item" 
-                                    onClick={handleLinkClick}
-                                >
-                                    📅 Meus Lembretes
-                                </Link>
-
-                                {/* ITEM FINAL: Logout */}
-                                <button 
-                                    onClick={handleLogout} 
-                                    className="dropdown-item logout-button"
-                                >
-                                    Sair
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    // --- LINKS PARA USUÁRIO NÃO LOGADO (sem dropdown) ---
-                    <>
-                        {/* Links visíveis diretamente na barra para não logados */}
-                        <Link to="/login" className="nav-button">Login</Link>
-                        <Link to="/cadastro" className="nav-button signup-btn">Cadastrar</Link>
-                    </>
-                )}
-            </div>
-        </nav>
-    );
+                <button onClick={handleLogout} className="dropdown-item logout-button">
+                  🚪 Sair
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <Link to="/login" className="nav-button">Login</Link>
+            <Link to="/cadastro" className="nav-button signup-btn">Cadastrar</Link>
+          </>
+        )}
+      </div>
+    </nav>
+  );
 }

@@ -10,7 +10,7 @@
     border: 1px solid var(--cor-principal);
     border-radius: 8px;
     background-color: transparent;
-    color: var(--cor-secundaria); /* Texto branco */
+    color: var(--cor-quintenária); /* Texto branco */
 }
 
 .quiz-header-title {

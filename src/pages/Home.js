@@ -1,93 +1,114 @@
 import React, { useEffect, useState } from "react";
-// Importações de Firebase e Roteamento
-import { Link } from 'react-router-dom'; // <--- Importado para navegação
-import { auth, db } from "../services/firebaseService";
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore"; // <--- Importado para Firestore
-// Componentes
-import Quiz from "../components/Quiz"; // Manter, mas o componente será usado via rota /quiz
+import { useNavigate } from "react-router-dom";
 import GraficoMortalidade from "../components/GraficoMortalidade";
 import "../styles/Home.css";
+import "../styles/Tema.css";
 
 export default function Home() {
-    const [user, setUser] = useState(null);
-    const [quizCompleted, setQuizCompleted] = useState(false); // NOVO ESTADO
-    const [loadingQuizStatus, setLoadingQuizStatus] = useState(true); // NOVO ESTADO
+  const [user, setUser] = useState(null);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [loadingQuizStatus, setLoadingQuizStatus] = useState(true);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (u) => {
-            setUser(u);
-            
-            // --- LÓGICA DE VERIFICAÇÃO DO QUIZ ---
-            if (u) {
-                try {
-                    const docRef = doc(db, "quiz_results", u.uid);
-                    const docSnap = await getDoc(docRef);
-                    setQuizCompleted(docSnap.exists()); // True se o documento existir
-                } catch (error) {
-                    console.error("Erro ao verificar status do quiz:", error);
-                    setQuizCompleted(false); // Assume não completado em caso de erro
-                }
-            } else {
-                setQuizCompleted(false); // Reseta se deslogar
-            }
-            setLoadingQuizStatus(false); // Finaliza o loading
-        });
-        
-        return () => unsubscribe();
-    }, []); 
+  useEffect(() => {
+    // Pega usuário e token do localStorage
+    const storedUser = JSON.parse(localStorage.getItem("usuario"));
+    const token = localStorage.getItem("token");
 
-    // Removemos handleStartQuiz e a renderização condicional do Quiz aqui,
-    // pois a navegação agora será via <Link to="/quiz">.
-    
-    // O Quiz.js deve ser acessado pela rota /quiz, e ele cuidará de mostrar
-    // o resultado ou o formulário, conforme a lógica que adicionamos lá.
+    if (!storedUser || !token) {
+      setUser(null);
+      setLoadingQuizStatus(false);
+      return;
+    }
 
-    // === Renderiza a Home (Hero Section e Gráfico) ===
-    return (
-        <div className="home-container page-wrapper">
-            <div className="home-hero">
-                <div className="overlay"></div>
-                <div className="home-content">
-                    <h1>Bem-vindo ao Checkup Azul</h1>
-                    <p>
-                        Cuidar da saúde é um ato de coragem e autocuidado. <br />
-                        Aqui no <strong>Checkup Azul</strong>, você encontra artigos sobre
-                        saúde masculina que descomplicam o que realmente importa — corpo,
-                        mente e bem-estar.
-                    </p>
-                    <p>
-                        Além disso, você pode participar do nosso <strong>Quiz interativo</strong>,
-                        que vai te ajudar a descobrir como está a sua rotina de cuidados e
-                        indicar dicas personalizadas para melhorar seus hábitos e alcançar
-                        uma vida mais equilibrada. <br />
-                        Comece hoje mesmo o seu Checkup Azul — pequenas mudanças fazem uma
-                        grande diferença!
-                    </p>
+    setUser(storedUser);
 
-                    {loadingQuizStatus ? (
-                         <button className="quiz-button-home" disabled>
-                            Carregando status...
-                        </button>
-                    ) : user ? (
-                        <Link to="/quiz"> {/* Usa Link para navegar */}
-                            <button className="quiz-button-home">
-                                {/* NOVO: Texto condicional */}
-                                {quizCompleted ? 'Visualizar Resultado' : 'Iniciar Quiz'}
-                            </button>
-                        </Link>
-                    ) : (
-                        <p className="login-text">
-                            Faça **login ou cadastre-se** para acessar o Quiz de Saúde Masculina.
-                        </p>
-                    )}
-                </div>
-            </div>
-        
-            <section className="grafico-section">
-                <GraficoMortalidade />
-            </section>
-            
+    // Verifica se já fez o quiz
+    const checkQuizStatus = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/quizresultado/${storedUser.id}`);
+        if (!response.ok) {
+          if (response.status === 404) {
+            setQuizCompleted(false);
+          } else {
+            throw new Error("Erro ao buscar resultado do quiz");
+          }
+        } else {
+          setQuizCompleted(true);
+        }
+      } catch (error) {
+        console.error(error);
+        setQuizCompleted(false);
+      } finally {
+        setLoadingQuizStatus(false);
+      }
+    };
+
+    checkQuizStatus();
+  }, []);
+
+  const handleQuizClick = () => {
+    if (!user) return;
+    if (quizCompleted) {
+      // Vai para a página do resultado salvo
+      navigate(`/quizresultado/${user.id}`);
+    } else {
+      // Inicia o quiz
+      navigate("/quiz");
+    }
+  };
+
+  return (
+    <div className="home-container page-content">
+      <div className="home-hero">
+        <div className="overlay"></div>
+        <div className="home-content">
+<h1>Bem-vindo ao Checkup Azul</h1>
+
+<p>
+  O <strong>Novembro Azul</strong> é um movimento internacional dedicado à conscientização sobre a saúde masculina.  
+  Ele surgiu para lembrar que muitos homens ainda deixam sua saúde em segundo plano, seja por falta de tempo, medo, vergonha ou pela ideia errada de que “homem não adoece”. A campanha reforça a importância do autocuidado, da prevenção e da realização de consultas regulares — especialmente quando falamos de câncer de próstata, doenças cardíacas, saúde mental e qualidade de vida.
+</p>
+
+<p>
+  A verdade é que se cuidar não deveria ser um tabu. É um ato de coragem, maturidade e responsabilidade consigo mesmo e com quem você ama. Pequenas escolhas feitas no dia a dia podem transformar completamente a forma como você se sente, vive e envelhece.
+</p>
+
+<p>
+  Pensando nisso, criamos o <strong>Quiz Checkup Azul</strong>.  
+  Ele foi desenvolvido para ajudar você a entender melhor como anda sua rotina de autocuidado. As perguntas são rápidas e abordam hábitos essenciais, como alimentação, sono, exercícios, exames preventivos e saúde mental.
+</p>
+
+<p>
+  Ao final do quiz, você receberá uma análise personalizada com orientações práticas que podem fazer diferença real no seu bem-estar. O objetivo não é julgar, mas ajudar você a enxergar oportunidades de melhorar sua qualidade de vida de forma simples, acessível e sem pressão.
+</p>
+
+<p>
+  Dedicar alguns minutos para responder o quiz pode ser o primeiro passo para criar uma relação mais saudável com seu próprio corpo e mente.  
+  Vamos começar essa jornada juntos?
+</p>
+
+
+
+          {loadingQuizStatus ? (
+            <button className="quiz-button-home" disabled>
+              Carregando status...
+            </button>
+          ) : user ? (
+            <button className="quiz-button-home" onClick={handleQuizClick}>
+              {quizCompleted ? "Ver o seu resultado" : "Iniciar Quiz"}
+            </button>
+          ) : (
+            <p className="login-text">
+              Faça <strong>login ou cadastre-se</strong> para acessar o Quiz de Saúde Masculina.
+            </p>
+          )}
         </div>
-    );
+      </div>
+
+      <section className="grafico-section">
+        <GraficoMortalidade />
+      </section>
+    </div>
+  );
 }

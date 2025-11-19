@@ -1,6 +1,6 @@
 .login-container {
     /* O fundo da página é controlado pelo body/elemento pai */
-    background-color:  black; 
+    background: var(--cor-fundo-principal); 
     border: 2px solid var(--cor-principal); 
     border-radius: 50px;
     padding: 2rem;
@@ -12,8 +12,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: var(--cor-secundaria); /* Texto principal branco */
-    position: fixed;
 }
 
 /* Título "CheckupAzul" */
@@ -35,7 +33,7 @@
 /* Campos de Input */
 .login-form input {
     background-color: var(--cor-secundaria); /* Fundo branco */
-    border: none;
+    border: var(--cor-principal) 2px solid; /* Borda azul */
     border-radius: 20px; 
     padding: 12px 20px;
     font-size: 1rem;
@@ -68,7 +66,7 @@
 /* Links (ex: "Ainda não tem uma conta?") */
 .login-links {
     font-size: 0.9rem;
-    color: var(--cor-secundaria); 
+    color: var(--cor-quintenaria); 
 }
 
 /* O link clicável ("Cadastrar-se") */

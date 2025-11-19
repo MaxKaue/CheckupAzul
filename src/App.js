@@ -1,28 +1,31 @@
+// src/App.js
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
-import Quiz from "./components/Quiz"; // <<< IMPORTAÇÃO NECESSÁRIA
-import Navbar from "./components/Navbar.js"; 
-import Lembretes from "./pages/Lembretes";
-import './styles/Tema.css'; // Adicionando importação de estilo global para garantir que o tema seja carregado
+import Quiz from "./components/Quiz";
+import Navbar from "./components/Navbar";
+import QuizResultado from "./components/QuizResultado";
+import { UserProvider } from "./context/UserContext";
+import Footer from "./components/Footer";
+import './styles/Tema.css';
 
 function App() {
-  return (
-    <Router>
-      <Navbar /> 
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cadastro" element={<Cadastro />} />
-        {/* >>> ROTA DO QUIZ ADICIONADA <<< */}
-        <Route path="/quiz" element={<Quiz />} />
-        {/* Rota para o gerenciador de lembretes */}
-        <Route path="/lembretes" element={<Lembretes />} />
-      </Routes>
-    </Router>
-  );
+  return (
+    <UserProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/quizresultado/:userId" element={<QuizResultado />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </UserProvider>
+  );
 }
 
 export default App;

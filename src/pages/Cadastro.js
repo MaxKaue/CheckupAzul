@@ -1,10 +1,7 @@
 import { useState } from "react";
-import { auth, db } from "../services/firebaseService";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Cadastro.css";
-
+import { register } from "../services/api"; // Importando a função do api.js
 
 export default function Cadastro() {
   const [email, setEmail] = useState("");
@@ -14,27 +11,47 @@ export default function Cadastro() {
 
   const handleCadastro = async (e) => {
     e.preventDefault();
+
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-      await setDoc(doc(db, "usuarios", userCredential.user.uid), { nome, email });
-      navigate("/"); // Redireciona para Home, que mostra o Quiz
+      // Usa a função do api.js para cadastrar
+      await register(nome, email, senha);
+
+      alert("Cadastro realizado com sucesso!");
+      navigate("/login"); // Redireciona para a página de login
     } catch (error) {
       alert(error.message);
     }
   };
 
   return (
-        <div className="cadastro-container"> {/* CLASSE PRINCIPAL */}
-            <h2 className="cadastro-title">CheckupAzul</h2> {/* CLASSE DO TÍTULO */}
-            <form onSubmit={handleCadastro} className="cadastro-form"> {/* CLASSE DO FORM */}
-            <input type="nome" placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} />
-            <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
-            <input type="password" placeholder="Senha" value={senha} onChange={e => setSenha(e.target.value)} />
-            <button type="submit" className="cadastro-button">cadastro</button> {/* CLASSE DO BOTÃO */}
-            </form>
-                <p className="cadastro-links">
-                    Já tem uma conta? <Link to="/login">Login</Link>
-                </p>
-        </div>
+    <div className="cadastro-container">
+      <h2 className="cadastro-title">CheckupAzul</h2>
+      <form onSubmit={handleCadastro} className="cadastro-form">
+        <input
+          type="text"
+          placeholder="Nome"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+        />
+        <button type="submit" className="cadastro-button">
+          Cadastrar
+        </button>
+      </form>
+      <p className="cadastro-links">
+        Já tem uma conta? <Link to="/login">Login</Link>
+      </p>
+    </div>
   );
 }

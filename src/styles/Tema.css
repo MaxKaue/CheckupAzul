@@ -1,18 +1,58 @@
 /* Definição das cores base (Tema Escuro, por exemplo) */
+/* === TEMA PADRÃO === */
 :root {
     /* Cores do background e texto */
-    --cor-fundo-principal: #00000000;
-    --cor-fundo-destaque: #00000000;
+    --cor-fundo-principal: #ffffff;
+    --cor-fundo-destaque: #ffffff;
     --cor-principal: #0096ff;
     --cor-secundaria: #ffffff;
-    --cor-terciaria: #ff6900;
+    --cor-terciaria: #7BC6A4;
     --cor-quartenaria: #53adec;
+    --cor-quintenaria: #000000;
+    --hero-height: min(900px, 180vh);
+    --overlay-color: rgba(0, 0, 0, 0.55);
+    --text-light: #ffffff;
+    --primary: #008cff;
+    --primary-hover: #006fd1;
 }
 
+/* === ALTO CONTRASTE === */
+[data-theme="alto-contraste"] {
+  --cor-fundo-principal: #000000;
+  --cor-fundo-destaque: #000000;
+  --cor-principal: #ffff00;   /* amarelo forte */
+  --cor-secundaria: #000000;
+  --cor-terciaria: #ffffff;
+  --cor-quintenaria: #ffffff;
+}
+
+/* === TONS SUAVES === */
+[data-theme="tons-suaves"] {
+  --cor-fundo-principal: #f6f7fb;
+  --cor-fundo-destaque: #ffffff;
+  --cor-principal: #6a8cff;   /* azul suave */
+  --cor-secundaria: #ffffff;
+  --cor-quintenaria: #333333;
+}
+
+/* === MODO ESCURO === */
+[data-theme="dark-mode"] {
+  --cor-fundo-principal: #000000;
+  --cor-fundo-destaque: #000000;
+  --cor-principal: #0096ff;
+  --cor-secundaria: #ffffff;
+  --cor-quintenaria: #ffffff;
+}
+
+
 Body {
-    background-color: rgb(0, 0, 0);
-    margin: 0;
-    padding: 0;
+    margin: 100vw;
     overflow: scroll;
+    background-color: var(--cor-fundo-principal);
+    
+}
+
+.page-content {
+  padding-top: 90px; /* Ajuste conforme a altura real da sua navbar */
 }
 

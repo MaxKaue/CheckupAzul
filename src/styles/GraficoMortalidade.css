@@ -1,23 +1,18 @@
-/* Importar as variáveis globais (se o seu bundler permitir, ou defina-as no root) */
-/* Se este arquivo for importado por último, ele pode usar as variáveis do :root */
-/* Estilos base (MANTIDOS DO CÓDIGO ANTERIOR) */
 .grafico-container {
-    /* Estilos definidos no theme.css */
     text-align: center;
-    padding-right: 2rem;
+    padding-right: 4%;
 }
 .grafico-container h2 {
     color: var(--cor-principal);
     margin-bottom: 5px;
 }
 .grafico-container p {
-    color: var(--cor-secundaria);
+    color: var(--cor-quintenaria);
     margin-top: 0;
     margin-bottom: 20px;
     font-style: italic;
 }
 
-/* 1. Estilos do botão */
 .toggle-button {
     margin-top: 20px;
     padding: 10px 15px;
@@ -36,8 +31,8 @@
 
 /* 2. Estilos do bloco de conscientização */
 .conscientizacao {
-    margin-top: 30px;
-    padding: 20px;
+    margin: 5%;
+    padding: 1%;
     line-height: 1.5;
     margin-bottom: 4rem;
     border-radius: 5px;
@@ -82,4 +77,9 @@
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.Ligue188 {
+    margin-left: 10%;
+    margin-right: 10%;
 }

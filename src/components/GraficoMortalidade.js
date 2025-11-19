@@ -138,7 +138,7 @@ export default function GraficoMortalidade() {
           sinal de fraqueza, é um ato de <strong className="destaque-texto">responsabilidade</strong> com o seu futuro e sua família.
         </p>
       </div>
-      <div>
+      <div className="Ligue188">
         <p>
           Além dos riscos físicos, o <strong className="destaque-texto">bem-estar mental</strong> exige atenção imediata. 
           Doenças como a depressão, muitas vezes ignoradas ou mascaradas, podem levar a graves 
