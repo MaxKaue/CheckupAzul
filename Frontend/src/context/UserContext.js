@@ -1,4 +1,3 @@
-// src/context/UserContext.js
 import { createContext, useState, useEffect } from "react";
 
 export const UserContext = createContext();
@@ -6,11 +5,14 @@ export const UserContext = createContext();
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  // Carrega o usuário do localStorage ao iniciar
   useEffect(() => {
     const storedUser = localStorage.getItem("usuario");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const storedId = localStorage.getItem("user_id");
+
+    if (storedUser && storedId) {
+      const parsed = JSON.parse(storedUser);
+      parsed.id = Number(storedId);   // <-- adiciona o id corretamente
+      setUser(parsed);
     }
   }, []);
 

@@ -150,7 +150,7 @@ app.post("/quiz", async (req, res) => {
        (user_id, total_score, result_title, result_text, answers, question_count, created_at)
        VALUES ($1, $2, $3, $4, $5, $6, NOW())
        RETURNING *`,
-      [user_id, total_score, result_title, result_text, answers, question_count, created_at]
+      [user_id, total_score, result_title, result_text, answers, question_count]
     );
 
     res.status(201).json(result.rows[0]);
@@ -169,12 +169,11 @@ app.get("/quizresultado/:user_id", async (req, res) => {
     const { user_id } = req.params;
 
     const result = await pool.query(
-      "SELECT * FROM quiz_resultadoss WHERE user_id = $1 ORDER BY id DESC LIMIT 1",
-      [user_id]
+    "SELECT * FROM quiz_resultadoss WHERE user_id = $1 AND answers IS NOT NULL ORDER BY id DESC LIMIT 1", [user_id]
     );
 
     if (result.rows.length === 0) {
-      return res.json({ error: "Nenhum resultado encontrado." });
+      return res.status(404).json({ error: "Nenhum resultado encontrado." });
     }
 
     const quiz = result.rows[0];

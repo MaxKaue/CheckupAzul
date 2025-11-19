@@ -61,7 +61,7 @@
 }
 
 .cadastro-button:hover {
-    background-color: #0077cc;
+    background-color: var(--cor-principal);
 }
 
 .cadastro-links {
@@ -77,5 +77,5 @@
 }
 
 .cadastro-links a:hover {
-    color: #0077cc;
+    color: var(--cor-principal);
 }

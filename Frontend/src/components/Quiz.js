@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/Quiz.css";
+import "../styles/Tema.css";
 
 export default function Quiz() {
   const perguntas = [
@@ -216,31 +217,33 @@ export default function Quiz() {
     setFinalResult({ titulo, texto });
   };
 
-  const salvarNoServidor = async (
-    titulo,
-    texto,
-    pontuacao,
-    respostasUsuario
-  ) => {
-    try {
-      await fetch("http://localhost:3000/quiz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: Number(localStorage.getItem("user_id")),
-          total_score: pontuacao,
-          result_title: titulo,
-          result_text: texto,
-          answers: respostasUsuario,
-          question_count: perguntas.length,
-        }),
-      });
-    } catch (error) {
-      console.error("Erro ao enviar quiz:", error);
+const salvarNoServidor = async (titulo, texto, pontuacao, respostasUsuario) => {
+  try {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario || !usuario.id) {
+      console.error("Usuário não encontrado no localStorage.");
+      return;
     }
-  };
+
+    await fetch("http://localhost:3000/quiz", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: usuario.id,
+        total_score: pontuacao,
+        result_title: titulo,
+        result_text: texto,
+        answers: respostasUsuario,
+        question_count: perguntas.length,
+      }),
+    });
+  } catch (error) {
+    console.error("Erro ao enviar quiz:", error);
+  }
+};
+
 
   return (
     <div className="quiz-container">
@@ -270,13 +273,10 @@ export default function Quiz() {
           <button
             className="quiz-botao"
             onClick={() => {
-              setFinalResult(null);
-              setEtapa(0);
-              setPontuacaoTotal(0);
-              setRespostas({});
+              window.location.href = "/";
             }}
           >
-            Refazer Quiz
+            Voltar para o Inicio
           </button>
         </div>
       )}

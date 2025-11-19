@@ -54,5 +54,6 @@ Body {
 
 .page-content {
   padding-top: 90px; /* Ajuste conforme a altura real da sua navbar */
+  flex: 1;
 }
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Cadastro.css";
 import { register } from "../services/api"; // Importando a função do api.js
+import "../styles/Tema.css";
 
 export default function Cadastro() {
   const [email, setEmail] = useState("");

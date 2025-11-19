@@ -60,7 +60,7 @@
 }
 
 .login-button:hover {
-    background-color: #0077cc; /* Hardcoded: Azul ligeiramente mais escuro */
+    background-color: var(--cor-principal); /* Hardcoded: Azul ligeiramente mais escuro */
 }
 
 /* Links (ex: "Ainda não tem uma conta?") */
@@ -78,5 +78,5 @@
 }
 
 .login-links a:hover {
-    color: #0077cc;
+    color: var(--cor-principal);
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/QuizResultado.css";
+import "../styles/Tema.css";
 
 export default function QuizResultado() {
   const [resultado, setResultado] = useState(null);

@@ -1,16 +1,17 @@
-/* src/styles/Quiz.css */
-
-/* Containers Principais */
 .quiz-container {
     justify-items: center;
-    max-width: 800px;
-    margin: auto;
-    margin-top: 10%;
+    height: auto;
+    max-width: 60rem;
+    margin: 30rem;
+    margin-top: 20rem;
     padding: 30px;
     border: 1px solid var(--cor-principal);
     border-radius: 8px;
     background-color: transparent;
-    color: var(--cor-quintenária); /* Texto branco */
+    color: var(--cor-quintenaria); /* Texto branco */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .quiz-header-title {
@@ -44,47 +45,33 @@
 }
 
 /* Opções de Resposta */
-.options-group {
+.quiz-opcoes {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    flex-direction: column; /* ✔ deixa tudo vertical */
+    gap: 15px; 
+    width: 100%;
+    margin-top: 20px;
 }
 
-.option-label {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #2c2c2c;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
-    border: 1px solid transparent;
-}
-
-.option-label:hover {
-    background-color: #3a3a3a;
-    border-color: var(--cor-quartenaria);
-}
-
-/* Estilo para a opção selecionada */
-.option-label input[type="radio"]:checked + .option-text {
-    color: var(--cor-principal);
-    font-weight: bold;
-}
-
-.option-label input[type="radio"] {
-    /* Esconde o radio button nativo e usa o CSS para estilizar */
-    opacity: 0;
-    width: 0;
-    height: 0;
-    margin: 0;
-}
-
-.option-text {
-    margin-left: -5px; /* Compensa o radio button escondido */
+/* Botões das alternativas */
+.quiz-botao {
+    background-color: var(--cor-fundo-principal); /* fundo branco */
+    color: var(--cor-quintenaria); /* texto escuro */
+    border: 2px solid var(--cor-principal); /* borda azul */
+    padding: 15px 20px;
+    border-radius: 20px;
     font-size: 1rem;
-    color: #fff;
-    transition: color 0.2s;
+    text-align: left;          /* texto alinhado à esquerda */
+    cursor: pointer;
+    transition: 0.2s ease;
+    width: 100%;               /* ✔ ocupa a largura total */
+}
+
+/* Hover */
+.quiz-botao:hover {
+    background-color: #f2f2f2;
+    border-color: var(--cor-principal);
+    transform: scale(1.02);
 }
 
 /* Botões */

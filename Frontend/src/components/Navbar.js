@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import '../styles/Navbar.css';
+import "../styles/Tema.css";
 
 export default function Navbar() {
   const { user, setUser } = useContext(UserContext);
