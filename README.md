@@ -24,6 +24,10 @@ Projeto de um sistema de conscientização sobre saúde masculina, com quiz de h
 - cors
 - dotenv
 
+**Infraestrutura / DevOps:**
+
+- Docker & Docker Compose (para PostgreSQL e aplicação)
+
 ---
 
 ## Estrutura do Projeto
