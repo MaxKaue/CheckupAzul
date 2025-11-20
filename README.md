@@ -27,6 +27,7 @@ Projeto de um sistema de conscientização sobre saúde masculina, com quiz de h
 **Infraestrutura / DevOps:**
 
 - Docker & Docker Compose (para PostgreSQL e aplicação)
+- pgAdmin (interface web para gerenciar o banco de dados PostgreSQL)
 
 ---
 
