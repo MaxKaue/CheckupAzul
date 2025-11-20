@@ -1,70 +1,179 @@
-# Getting Started with Create React App
+Perfeito! Aqui está um **README completo pronto** para o seu projeto “Saúde Homem Web”, já adaptado para copiar e colar:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```markdown
+# Checkup Azul
 
-## Available Scripts
+Projeto de um sistema de conscientização sobre saúde masculina, com quiz de hábitos de saúde e análise de resultados.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Tecnologias utilizadas
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Frontend:**
+- React 19
+- React Router Dom 7
+- Chart.js e Recharts
+- CSS customizado
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Backend:**
+- Node.js
+- Express 5
+- PostgreSQL
+- bcrypt
+- jsonwebtoken
+- cors
+- dotenv
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Estrutura do Projeto
 
-### `npm run build`
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Saúde-Homem-Web/
+├─ Frontend/
+│  ├─ src/
+│  │  ├─ components/
+│  │  ├─ styles/
+│  │  └─ pages/
+│  ├─ package.json
+│  └─ .env.example
+├─ Backend/
+│  ├─ routes/
+│  ├─ controllers/
+│  ├─ db/
+│  ├─ package.json
+│  └─ .env.example
+└─ docker-compose.yml
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+````
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Configuração do Banco de Dados
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+As tabelas necessárias estão definidas no script SQL abaixo:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```sql
+-- Table: public.usuarios
+CREATE TABLE IF NOT EXISTS public.usuarios
+(
+    id integer NOT NULL DEFAULT nextval('usuarios_id_seq'::regclass),
+    nome_usuario character varying(100),
+    email character varying(100) NOT NULL,
+    senha_hash character varying(200) NOT NULL,
+    CONSTRAINT usuarios_pkey PRIMARY KEY (id),
+    CONSTRAINT usuarios_email_key UNIQUE (email)
+);
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+-- Table: public.quiz_resultadoss
+CREATE TABLE IF NOT EXISTS public.quiz_resultadoss
+(
+    id integer NOT NULL DEFAULT nextval('quiz_resultadoss_id_seq'::regclass),
+    user_id integer,
+    total_score integer NOT NULL,
+    result_title text NOT NULL,
+    result_text text NOT NULL,
+    answers jsonb NOT NULL,
+    question_count integer NOT NULL,
+    created_at timestamp without time zone DEFAULT now(),
+    CONSTRAINT quiz_resultadoss_pkey PRIMARY KEY (id)
+);
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+-- Table: public.usersessions
+CREATE TABLE IF NOT EXISTS public.usersessions
+(
+    id integer NOT NULL DEFAULT nextval('usersessions_id_seq'::regclass),
+    user_id integer,
+    session_token text NOT NULL,
+    criado_em timestamp without time zone DEFAULT now(),
+    CONSTRAINT usersessions_pkey PRIMARY KEY (id),
+    CONSTRAINT usersessions_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.usuarios (id)
+        ON DELETE CASCADE
+);
+````
 
-## Learn More
+> Dica: salve este script em um arquivo `init.sql` para criar o banco de dados automaticamente.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Variáveis de ambiente
 
-### Code Splitting
+Crie um arquivo `.env` na raiz do frontend e backend baseado no `.env.example`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Exemplo de `.env.example`:
 
-### Analyzing the Bundle Size
+```
+DB_USER=...
+DB_PASSWORD=...
+DB_HOST=...
+DB_PORT=...
+DB_NAME=...
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Docker
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Para subir o PostgreSQL e o pgAdmin, use o `docker-compose.yml`.
 
-### Advanced Configuration
+Ele já referencia variáveis de ambiente através do `.env`. Não inclua senhas diretamente no arquivo do docker.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**Comando para iniciar:**
 
-### Deployment
+```bash
+docker-compose up -d
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## Instalação
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Backend
+
+```bash
+cd Backend
+npm install
+npm run dev   # inicia em modo desenvolvimento
+```
+
+### Frontend
+
+```bash
+cd Frontend
+npm install
+npm start     # inicia a aplicação React
+```
+
+---
+
+## Uso
+
+1. Faça login ou cadastro.
+2. Inicie o quiz de hábitos de saúde.
+3. Ao finalizar, veja seu resultado com pontuação e análise.
+4. Você pode refazer o quiz ou voltar para a página inicial.
+
+---
+
+## Rotas principais
+
+**Backend (Express):**
+
+| Método | Rota                      | Descrição                |
+| ------ | ------------------------- | ------------------------ |
+| POST   | `/login`                  | Autenticação do usuário  |
+| POST   | `/register`               | Cadastro de novo usuário |
+| GET    | `/quizresultado/:user_id` | Buscar resultado do quiz |
+| POST   | `/quiz`                   | Salvar resultado do quiz |
+
+---
+
+## Observações
+
+* Todas as senhas e variáveis sensíveis devem estar apenas no `.env`.
+* O Docker cria containers separados para PostgreSQL e pgAdmin.
+* Para outros desenvolvedores, basta copiar `.env.example` e criar suas variáveis locais.
+
+---
